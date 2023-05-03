@@ -10,7 +10,10 @@ function App() {
         <h1>Count is: {count}</h1>
       </div>
       <div className="flex w-16 justify-between">
-        <button className="w-5 h-5 rounded border border-gray-500 flex flex-row justify-center items-center">
+        <button
+          className="w-5 h-5 rounded border border-gray-500 flex flex-row justify-center items-center"
+          onClick={() => setCount((count) => count - 1)}
+        >
           -
         </button>
         <button
