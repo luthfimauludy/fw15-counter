@@ -1,49 +1,53 @@
 import React from "react";
 
-function Counter() {
+function Counter(props) {
   const [count, setCount] = React.useState(0);
-  const [error, setError] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  function handleCountSum() {
-    if (count === 10) {
-      setError("Max 10");
+  function decrement() {
+    if (count > 0) {
+      setCount(count - 1);
+      setErrorMessage("");
     } else {
-      setError("");
-      setCount(count + 1);
+      setErrorMessage("The minimum number is 0");
     }
   }
 
-  const handleCountMin = () => {
-    if (count === 0) {
-      setError("Failed");
+  function increment() {
+    if (count < 10) {
+      setCount(count + 1);
+      setErrorMessage("");
     } else {
-      setError("");
-      setCount(count - 1);
+      setErrorMessage("The maximum number is 10");
     }
-  };
+  }
+
+  const { onChangeNumber } = props;
+
+  React.useEffect(() => {
+    function changeNumber(num) {
+      onChangeNumber(num);
+    }
+    changeNumber(count);
+  }, [count, onChangeNumber]);
 
   return (
     <>
-      <div>Count is: {count}</div>
-      <div>
-        <h1>{error}</h1>
-      </div>
-      <div className="flex w-32 justify-between">
-        <button
-          className="w-10 h-10 rounded border border-black flex flex-row justify-center items-center"
-          onClick={handleCountMin}
-        >
+      <div className="text-xl font-semibold text-red-700">{errorMessage}</div>
+      <div className="flex gap-5">
+        <button className="btn btn-primary" onClick={decrement}>
           -
         </button>
-        <button
-          className="w-10 h-10 rounded border border-black flex flex-row justify-center items-center"
-          onClick={handleCountSum}
-        >
+        <button className="btn btn-primary" onClick={increment}>
           +
         </button>
       </div>
     </>
   );
 }
+
+Counter.propTypes = {
+  onChangeNumber: "function",
+};
 
 export default Counter;
